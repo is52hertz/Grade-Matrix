@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id               String   @id @default(uuid())
+  username         String   @unique
+  password         String
+  // 存储选科方向，例如 JSON字符串: ["Physics", "Chemistry", "Biology"]
+  selectedSubjects String   @default("[]")
+  createdAt        DateTime @default(now())
+  exams            Exam[]
+}
+
+model Exam {
+  id         String   @id @default(uuid())
+  name       String   // e.g. "高三上学期第一次模拟"
+  date       DateTime
+  type       String   // Midterm, Final, Mock
+
+  // 核心排名数据
+  totalScore Float    @default(0)
+  classRank  Int?     // 班级排名
+  gradeRank  Int?     // 年级排名
+
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  scores     Score[]
+  createdAt  DateTime @default(now())
+}
+
+model Score {
+  id            String   @id @default(uuid())
+  subject       String   // Chinese, Math, English, Physics...
+  score         Float
+  maxScore      Float    @default(100)
+
+  // 单科分析数据
+  classRank     Int?
+  gradeRank     Int?
+  gradeAvgScore Float?   // 年级该科平均分 (用于计算离差/木桶效应)
+
+  examId        String
+  exam          Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+}

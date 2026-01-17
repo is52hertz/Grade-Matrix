@@ -52,7 +52,7 @@ const Config = () => {
     const forceRedownload = async () => {
         const targetUrl = PRIMARY_FONT_URL || FALLBACK_FONT_URL;
         if (!targetUrl) {
-            alert("No font URL configured!");
+            alert(t('config.alert_no_font_url'));
             return;
         }
 
@@ -64,7 +64,7 @@ const Config = () => {
         const buffer = await registerDownload(
             'font_debug_force',
             cacheBustedUrl,
-            `DEBUG: ${FONT_FAMILY_NAME}`
+            t('download.task_font_debug', { name: FONT_FAMILY_NAME })
         );
 
         if (buffer) {
@@ -122,7 +122,7 @@ const Config = () => {
                 <div className="flex justify-between items-center border-b border-border pb-6">
                     <div>
                         <div className="text-white font-bold">{t('config.lang_auto')}</div>
-                        <div className="text-xs text-muted-fg mt-1">Download 'Sarasa Gothic' for Chinese UI</div>
+                        <div className="text-xs text-muted-fg mt-1">{t('config.lang_auto_desc')}</div>
                     </div>
                     <Toggle active={isAutoDetect} onClick={toggleAutoDetect} />
                 </div>
@@ -130,11 +130,11 @@ const Config = () => {
                 <div className="flex justify-between items-center border-b border-border pb-6">
                     <div>
                         <div className="text-white font-bold">{t('config.lang_current')}</div>
-                        <div className="text-xs text-muted-fg mt-1">Current: {i18n.language}</div>
+                        <div className="text-xs text-muted-fg mt-1">{t('config.lang_current_desc', { lng: i18n.language })}</div>
                     </div>
                     <div className="flex gap-2">
-                        <LangOption label="ENGLISH" active={i18n.language.startsWith('en')} onClick={() => changeLanguage('en')} />
-                        <LangOption label="中文 (CN)" active={i18n.language.startsWith('zh')} onClick={() => changeLanguage('zh')} />
+                        <LangOption label={t('config.lang_en')} active={i18n.language.startsWith('en')} onClick={() => changeLanguage('en')} />
+                        <LangOption label={t('config.lang_zh')} active={i18n.language.startsWith('zh')} onClick={() => changeLanguage('zh')} />
                     </div>
                 </div>
 
@@ -146,14 +146,12 @@ const Config = () => {
                     <Toggle active={perfMode} onClick={togglePerf} />
                 </div>
 
-                {/* 仅在中文模式下显示调试按钮 */}
-                {i18n.language.startsWith('zh') && (
-                    <div className="mt-2 flex justify-end">
-                        <button onClick={forceRedownload} className="text-xs text-muted-fg hover:text-white underline font-mono">
-                            [DEBUG] Force Re-download (ZIP/TTF)
-                        </button>
-                    </div>
-                )}
+                {/* Debug: Font redownload */}
+                <div className="mt-2 flex justify-end">
+                    <button onClick={forceRedownload} className="text-xs text-muted-fg hover:text-white underline font-mono">
+                        {t('config.btn_force_redownload')}
+                    </button>
+                </div>
             </div>
 
             <SectionHeader title={t('config.sec_dashboard')} />

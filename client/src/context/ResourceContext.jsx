@@ -20,7 +20,7 @@ export const ResourceProvider = ({ children }) => {
 
         setDownloads(prev => ({
             ...prev,
-            [id]: { id, name, progress: 0, loaded: 0, total: 0, speed: 'CONNECTING...', status: 'downloading' }
+            [id]: { id, name, progress: 0, loaded: 0, total: 0, speed: 'connecting', status: 'downloading' }
         }));
 
         try {
@@ -45,7 +45,7 @@ export const ResourceProvider = ({ children }) => {
                     // 计算速度
                     const now = Date.now();
                     const timeDiff = (now - startTime) / 1000;
-                    let speedStr = 'CALCULATING...';
+                    let speedStr = 'calculating';
 
                     if (timeDiff > 0.5) {
                         const speed = (loaded - prevLoaded) / timeDiff;
@@ -73,7 +73,7 @@ export const ResourceProvider = ({ children }) => {
             // 只有 Axios 成功返回 200，才设置 100% DONE
             setDownloads(prev => ({
                 ...prev,
-                [id]: { ...prev[id], progress: 100, status: 'completed', speed: 'DONE' }
+                [id]: { ...prev[id], progress: 100, status: 'completed', speed: 'done' }
             }));
 
             setTimeout(() => {
@@ -90,7 +90,7 @@ export const ResourceProvider = ({ children }) => {
             console.error(`[Resource] Error ${id}:`, error);
             setDownloads(prev => ({
                 ...prev,
-                [id]: { ...prev[id], status: 'error', speed: 'FAILED', progress: 0 }
+                [id]: { ...prev[id], status: 'error', speed: 'failed', progress: 0 }
             }));
             return null;
         }

@@ -75,7 +75,7 @@ const Layout = ({ children, currentPage, onNavigate }) => {
                 <header className="flex-none border-b border-border h-16 flex items-center px-6 justify-between bg-black/50 select-none">
                     <div className="flex items-center gap-3">
                         <div className="w-3 h-3 bg-white rounded-full animate-pulse"/>
-                        <div className="text-lg font-bold tracking-tighter">GRADE_MATRIX</div>
+                        <div className="text-lg font-bold tracking-tighter">{t('app.brand')}</div>
                     </div>
                     <div className="flex gap-4 text-xs font-bold text-muted-fg">
              <span className={navClass('dashboard')} onClick={() => onNavigate('dashboard')}>
@@ -100,7 +100,7 @@ const Layout = ({ children, currentPage, onNavigate }) => {
                     className="absolute top-0 right-[-6px] w-[12px] h-full cursor-col-resize z-50 group flex items-center justify-center hover:bg-white/5 transition-colors"
                     onMouseDown={handleMouseDown}
                     onDoubleClick={() => setWidthPercent(60)}
-                    title="Drag to Resize"
+                    title={t('layout.drag_resize')}
                 >
                     <div className="h-12 w-1 bg-white/20 group-hover:bg-white rounded-full transition-colors shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                 </div>

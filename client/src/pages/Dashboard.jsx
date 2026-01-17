@@ -40,16 +40,28 @@ const StatCard = ({ label, value, sub, highlight }) => (
     </motion.div>
 );
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, t, labels }) => {
     if (active && payload && payload.length) {
         const data = payload[0].payload;
+        const header = data?.name || data?.subject || label;
+
+        const getLabel = (entry) => {
+            const rawKey = (entry && (entry.dataKey || entry.name)) || '';
+            const hit = labels && (labels[rawKey] || labels[String(rawKey).toLowerCase()]);
+            return hit || entry.name;
+        };
+
         return (
             <div className="bg-black border border-white p-3 text-xs font-mono shadow-2xl z-50 min-w-[150px]">
-                <p className="text-white mb-2 border-b border-white/20 pb-1 font-bold">{data.name}</p>
-                {data.isVirtual && <p className="text-muted-fg mb-2 border-l-2 border-white pl-2 italic">Projection (Grade 10)</p>}
+                <p className="text-white mb-2 border-b border-white/20 pb-1 font-bold">{header}</p>
+                {data.isVirtual && (
+                    <p className="text-muted-fg mb-2 border-l-2 border-white pl-2 italic">
+                        {t('dashboard.tooltip_projection')}
+                    </p>
+                )}
                 {payload.map((entry, index) => (
                     <div key={index} className="flex justify-between gap-4 mb-1" style={{ color: entry.color || '#fff' }}>
-                        <span>{entry.name}:</span>
+                        <span>{getLabel(entry)}:</span>
                         <span className="font-bold">{entry.value}</span>
                     </div>
                 ))}
@@ -72,23 +84,23 @@ const Dashboard = () => {
     useEffect(() => {
         fetch('http://localhost:5000/api/dashboard')
             .then(res => {
-                if (!res.ok) throw new Error(`API Error: ${res.status}`);
+                if (!res.ok) throw new Error(t('dashboard.err_api', { status: res.status }));
                 return res.json();
             })
             .then(d => {
-                if (!d.analysis) throw new Error("Data format invalid");
+                if (!d.analysis) throw new Error(t('dashboard.err_invalid_data'));
                 setData(d.analysis);
                 setLoading(false);
             })
             .catch(err => {
                 console.error("Fetch Error:", err);
-                setError(err.message);
+                setError(t('dashboard.err_fetch', { message: err.message }));
                 setLoading(false);
             });
     }, []);
 
-    if (loading) return <div className="p-20 text-center font-mono text-muted-fg animate-pulse">{"dev>> INITIALIZING_MODULES..."}</div>;
-    if (error) return <div className="p-20 text-center text-red-500 font-mono">SYSTEM ERROR: {error}</div>;
+    if (loading) return <div className="p-20 text-center font-mono text-muted-fg animate-pulse">{t('dashboard.loading')}</div>;
+    if (error) return <div className="p-20 text-center text-red-500 font-mono">{t('dashboard.error_prefix')}: {error}</div>;
     if (!data) return null;
 
     const { charts, overview } = data;
@@ -98,6 +110,16 @@ const Dashboard = () => {
     const showVolatility = !isGrade10 && dashboardModules?.volatilityIndex;
     const showRightModule = showSelection || showVolatility;
     const showGrid = showRadar || showRightModule;
+
+    const tooltipLabels = {
+        totalScore: t('dashboard.metric_totalScore'),
+        gradeRank: t('dashboard.metric_gradeRank'),
+        subject: t('dashboard.metric_subject'),
+        gap: t('dashboard.metric_gap'),
+        value: t('dashboard.metric_value'),
+        mean: t('dashboard.metric_mean'),
+        stdDev: t('dashboard.metric_stdDev'),
+    };
 
     const stripOrdinal = (title) => {
         if (typeof title !== 'string') return title;
@@ -126,9 +148,9 @@ const Dashboard = () => {
                     className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
                 >
                     <StatCard label={t('dashboard.label_phase')} value={isGrade10 ? t('dashboard.phase_discovery') : t('dashboard.phase_focus')} highlight />
-                    <StatCard label={t('dashboard.label_score')} value={f(overview.latestTotal)} sub={`/ ${overview.maxPossible} Max`} />
+                    <StatCard label={t('dashboard.label_score')} value={f(overview.latestTotal)} sub={t('dashboard.sub_score_max', { max: overview.maxPossible })} />
                     <StatCard label={t('dashboard.label_exams')} value={overview.examCount} />
-                    <StatCard label={t('dashboard.label_attn')} value={overview.mostUnstable || 'N/A'} sub={t('dashboard.sub_volatility')} />
+                    <StatCard label={t('dashboard.label_attn')} value={overview.mostUnstable || t('dashboard.na')} sub={t('dashboard.sub_volatility')} />
                 </motion.div>
             )}
 
@@ -140,9 +162,9 @@ const Dashboard = () => {
                         <ResponsiveContainer>
                             <ComposedChart data={charts.mainSequence}>
                                 <XAxis dataKey="name" tick={{fontSize: 10, fill: '#666'}} interval={0} angle={-10} textAnchor="end" />
-                                <YAxis yAxisId="left" stroke="#fff" tick={{fontSize: 10}} domain={['auto', 'auto']} label={{ value: 'Score', angle: -90, position: 'insideLeft', fill: '#666', fontSize: 10 }} />
-                                <YAxis yAxisId="right" orientation="right" stroke="#666" reversed tick={{fontSize: 10}} domain={['auto', 'auto']} label={{ value: 'Rank', angle: 90, position: 'insideRight', fill: '#666', fontSize: 10 }} />
-                                <Tooltip content={<CustomTooltip />} />
+                                <YAxis yAxisId="left" stroke="#fff" tick={{fontSize: 10}} domain={['auto', 'auto']} label={{ value: t('dashboard.axis_score'), angle: -90, position: 'insideLeft', fill: '#666', fontSize: 10 }} />
+                                <YAxis yAxisId="right" orientation="right" stroke="#666" reversed tick={{fontSize: 10}} domain={['auto', 'auto']} label={{ value: t('dashboard.axis_rank'), angle: 90, position: 'insideRight', fill: '#666', fontSize: 10 }} />
+                                <Tooltip content={<CustomTooltip t={t} labels={tooltipLabels} />} />
                                 {charts.mainSequence.some(d => d.isVirtual) && (
                                     <ReferenceLine x={charts.mainSequence.find(d => !d.isVirtual)?.name} stroke="#333" strokeDasharray="3 3" />
                                 )}
@@ -165,11 +187,11 @@ const Dashboard = () => {
                             <BarChart data={charts.shortStave} layout="vertical" margin={{left: 40, right: 20}}>
                                 <XAxis type="number" stroke="#666" tick={{fontSize: 10}} />
                                 <YAxis dataKey="subject" type="category" stroke="#fff" tick={{fontSize: 10}} width={60} />
-                                <Tooltip content={<CustomTooltip />} />
-                                <ReferenceLine x={0} stroke="#444" />
-                                <Bar dataKey="gap" barSize={15}>
-                                    {charts.shortStave.map((entry, index) => <Cell key={index} fill={entry.gap > 0 ? '#fff' : '#333'} />)}
-                                </Bar>
+                            <Tooltip content={<CustomTooltip t={t} labels={tooltipLabels} />} />
+                            <ReferenceLine x={0} stroke="#444" />
+                            <Bar dataKey="gap" barSize={15}>
+                                {charts.shortStave.map((entry, index) => <Cell key={index} fill={entry.gap > 0 ? '#fff' : '#333'} />)}
+                            </Bar>
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
@@ -188,7 +210,7 @@ const Dashboard = () => {
                                         <PolarGrid stroke="#333" />
                                         <PolarAngleAxis dataKey="subject" tick={{ fill: '#888', fontSize: 10 }} />
                                         <Radar dataKey="value" stroke="#fff" fill="#fff" fillOpacity={0.2} />
-                                        <Tooltip content={<CustomTooltip />} />
+                                        <Tooltip content={<CustomTooltip t={t} labels={tooltipLabels} />} />
                                     </RadarChart>
                                 </ResponsiveContainer>
                             </div>
@@ -212,7 +234,7 @@ const Dashboard = () => {
                                                 </div>
                                                 <div className="text-right">
                                                     <div className="text-xl font-mono font-bold">{Math.round(sug.total)}</div>
-                                                    <div className="text-[10px] text-muted-fg">PROJECTED</div>
+                                                    <div className="text-[10px] text-muted-fg">{t('dashboard.tag_projected')}</div>
                                                 </div>
                                             </div>
                                         ))}
@@ -227,7 +249,7 @@ const Dashboard = () => {
                                                 <XAxis dataKey="mean" type="number" stroke="#666" tick={{fontSize: 10}} domain={[0, 150]} />
                                                 <YAxis dataKey="subject" type="category" stroke="#fff" tick={{fontSize: 10}} width={60} />
                                                 <ZAxis dataKey="stdDev" range={[50, 400]} />
-                                                <Tooltip cursor={{ strokeDasharray: '3 3' }} content={<CustomTooltip />} />
+                                                <Tooltip cursor={{ strokeDasharray: '3 3' }} content={<CustomTooltip t={t} labels={tooltipLabels} />} />
                                                 <Scatter data={charts.volatility} fill="#fff" />
                                             </ScatterChart>
                                         </ResponsiveContainer>

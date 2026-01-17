@@ -12,7 +12,7 @@ import {
 const MAX_RETRIES = 5; // 降低重试次数，避免死循环
 
 export const useFontLoader = () => {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const { registerDownload, isAutoDetect } = useResource();
 
     const isProcessing = useRef(false);
@@ -74,13 +74,13 @@ export const useFontLoader = () => {
                 console.log(`[FontLoader] Start (Attempt ${failCount + 1})...`);
 
                 // 1. 尝试主源
-                fontBuffer = await attemptDownload('font_main', PRIMARY_FONT_URL, 'FONT_PACK: PRIMARY_SOURCE');
+                fontBuffer = await attemptDownload('font_main', PRIMARY_FONT_URL, t('download.task_font_primary'));
                 if (fontBuffer) fontBuffer = await processData(fontBuffer, PRIMARY_FONT_URL);
 
                 // 2. 尝试备选 (如果主源失败或未配置)
                 if (!fontBuffer) {
                     if (PRIMARY_FONT_URL) console.warn("[FontLoader] Primary failed/empty, trying fallback...");
-                    fontBuffer = await attemptDownload('font_alt', FALLBACK_FONT_URL, 'FONT_PACK: FALLBACK_SOURCE');
+                    fontBuffer = await attemptDownload('font_alt', FALLBACK_FONT_URL, t('download.task_font_fallback'));
                     if (fontBuffer) fontBuffer = await processData(fontBuffer, FALLBACK_FONT_URL);
                 }
 

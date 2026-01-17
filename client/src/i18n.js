@@ -10,8 +10,47 @@ const resources = {
                 import: "[IMPORT]",
                 config: "[sys_CONFIG]"
             },
+            app: {
+                brand: "GRADE_MATRIX"
+            },
+            layout: {
+                drag_resize: "Drag to Resize"
+            },
+            import: {
+                placeholder: "[IMPORT MODULE PLACEHOLDER]"
+            },
+            download: {
+                system_update: "SYSTEM_UPDATE",
+                receiving: "RECEIVING...",
+                speed_connecting: "CONNECTING...",
+                speed_calculating: "CALCULATING...",
+                speed_done: "DONE",
+                speed_failed: "FAILED",
+                task_font_primary: "FONT_PACK: PRIMARY_SOURCE",
+                task_font_fallback: "FONT_PACK: FALLBACK_SOURCE",
+                task_font_debug: "DEBUG: {{name}}"
+            },
             dashboard: {
                 // 恢复 Cyberpunk 风格
+                loading: "dev>> INITIALIZING_MODULES...",
+                error_prefix: "SYSTEM ERROR",
+                na: "N/A",
+                tooltip_projection: "Projection (Grade 10)",
+                tag_projected: "PROJECTED",
+                axis_score: "Score",
+                axis_rank: "Rank",
+                sub_score_max: "/ {{max}} Max",
+                err_api: "API Error: {{status}}",
+                err_invalid_data: "Data format invalid",
+                err_fetch: "Fetch Error: {{message}}",
+                metric_totalScore: "Total Score",
+                metric_gradeRank: "Grade Rank",
+                metric_subject: "Subject",
+                metric_gap: "Gap",
+                metric_value: "Value",
+                metric_mean: "Mean",
+                metric_stdDev: "Std.Dev",
+
                 label_phase: "CURRENT_PHASE",
                 phase_discovery: "DISCOVERY_PROTO (G10)",
                 phase_focus: "FOCUS_MODE (G11/12)",
@@ -52,11 +91,17 @@ const resources = {
                 sec_privacy: "PRIVACY_SECURITY",
                 sec_dashboard: "DASHBOARD_MODULES",
                 lang_auto: "AUTO_RESOURCE_DETECT",
+                lang_auto_desc: "Download 'Sarasa Gothic' for Chinese UI",
                 lang_current: "DISPLAY_LANGUAGE",
+                lang_current_desc: "Current: {{lng}}",
+                lang_en: "ENGLISH",
+                lang_zh: "中文 (CN)",
                 mode_perf: "PERFORMANCE_MODE",
                 mode_perf_desc: "Disable WebGL Particles (Low Power)",
                 mode_privacy: "PRIVACY_MASK",
                 mode_privacy_desc: "Obfuscate numeric values (***)",
+                alert_no_font_url: "No font URL configured!",
+                btn_force_redownload: "[DEBUG] Force Re-download (ZIP/TTF)",
 
                 dash_overview: "OVERVIEW_PANEL",
                 dash_overview_desc: "Top summary cards",
@@ -85,7 +130,46 @@ const resources = {
                 import: "[数据录入]",
                 config: "[系统配置]"
             },
+            app: {
+                brand: "GRADE_MATRIX"
+            },
+            layout: {
+                drag_resize: "拖动调整宽度"
+            },
+            import: {
+                placeholder: "[导入模块占位]"
+            },
+            download: {
+                system_update: "系统更新",
+                receiving: "接收中...",
+                speed_connecting: "连接中...",
+                speed_calculating: "计算中...",
+                speed_done: "完成",
+                speed_failed: "失败",
+                task_font_primary: "字体包：主源",
+                task_font_fallback: "字体包：备选源",
+                task_font_debug: "调试：{{name}}"
+            },
             dashboard: {
+                loading: "dev>> 模块初始化...",
+                error_prefix: "系统错误",
+                na: "N/A",
+                tooltip_projection: "预测 (高一)",
+                tag_projected: "预测",
+                axis_score: "分数",
+                axis_rank: "排名",
+                sub_score_max: "/ {{max}} 满分",
+                err_api: "接口错误：{{status}}",
+                err_invalid_data: "数据格式异常",
+                err_fetch: "请求失败：{{message}}",
+                metric_totalScore: "总分",
+                metric_gradeRank: "年级排名",
+                metric_subject: "科目",
+                metric_gap: "差值",
+                metric_value: "数值",
+                metric_mean: "平均分",
+                metric_stdDev: "标准差",
+
                 label_phase: "当前阶段",
                 phase_discovery: "探索阶段 (高一)",
                 phase_focus: "聚焦阶段 (高二/三)",
@@ -119,11 +203,17 @@ const resources = {
                 sec_privacy: "隐私与安全",
                 sec_dashboard: "仪表盘组件显示",
                 lang_auto: "资源自动检测",
+                lang_auto_desc: "下载 'Sarasa Gothic' 以支持中文界面",
                 lang_current: "显示语言",
+                lang_current_desc: "当前：{{lng}}",
+                lang_en: "ENGLISH",
+                lang_zh: "中文 (CN)",
                 mode_perf: "性能模式",
                 mode_perf_desc: "关闭 3D 粒子背景 (省电)",
                 mode_privacy: "隐私遮罩",
                 mode_privacy_desc: "隐藏具体分数 (***) 仅显示趋势",
+                alert_no_font_url: "未配置字体下载地址！",
+                btn_force_redownload: "[调试] 强制重新下载 (ZIP/TTF)",
 
                 dash_overview: "顶部概览",
                 dash_overview_desc: "摘要统计卡片",

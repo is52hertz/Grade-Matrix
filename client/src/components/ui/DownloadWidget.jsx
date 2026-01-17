@@ -1,8 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useResource } from '../../context/ResourceContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const DownloadWidget = () => {
+    const { t } = useTranslation();
     const { downloads } = useResource();
     const activeDownloads = Object.values(downloads);
 
@@ -17,6 +19,14 @@ const DownloadWidget = () => {
         return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
     };
 
+    const speedText = (speed) => {
+        if (speed === 'connecting') return t('download.speed_connecting');
+        if (speed === 'calculating') return t('download.speed_calculating');
+        if (speed === 'done') return t('download.speed_done');
+        if (speed === 'failed') return t('download.speed_failed');
+        return speed;
+    };
+
     return (
         <AnimatePresence>
             {task && (
@@ -29,14 +39,14 @@ const DownloadWidget = () => {
                         className="hidden md:block fixed bottom-6 right-6 z-[9999] w-80 bg-black border border-white p-4 shadow-2xl font-mono"
                     >
                         <div className="flex justify-between items-start mb-2 border-b border-border pb-1">
-                            <span className="text-xs font-bold text-white bg-white/20 px-1">SYSTEM_UPDATE</span>
-                            <span className="text-xs text-muted-fg animate-pulse">RECEIVING...</span>
+                            <span className="text-xs font-bold text-white bg-white/20 px-1">{t('download.system_update')}</span>
+                            <span className="text-xs text-muted-fg animate-pulse">{t('download.receiving')}</span>
                         </div>
 
                         <div className="text-sm font-bold text-white truncate mb-1">{task.name}</div>
 
                         <div className="flex justify-between text-[10px] text-muted-fg mb-2">
-                            <span>{task.speed}</span>
+                            <span>{speedText(task.speed)}</span>
                             <span>{formatSize(task.loaded)} / {formatSize(task.total)}</span>
                         </div>
 

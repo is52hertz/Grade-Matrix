@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Config from './pages/Config';
+import ImportPage from './pages/Import';
 import { ResourceProvider } from './context/ResourceContext';
 import { ConfigProvider } from './context/ConfigContext';
 import DownloadWidget from './components/ui/DownloadWidget';
 
 function AppContent() {
-    const { t } = useTranslation();
     // 简单的页面路由状态
     const [currentPage, setCurrentPage] = useState('dashboard');
 
@@ -17,7 +16,7 @@ function AppContent() {
             <Layout currentPage={currentPage} onNavigate={setCurrentPage}>
                 {currentPage === 'dashboard' && <Dashboard />}
                 {currentPage === 'config' && <Config />}
-                {currentPage === 'import' && <div className="p-10 text-center text-muted-fg font-mono">{t('import.placeholder')}</div>}
+                {currentPage === 'import' && <ImportPage />}
             </Layout>
             <DownloadWidget />
         </>

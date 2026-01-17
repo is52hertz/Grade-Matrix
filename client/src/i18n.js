@@ -16,8 +16,77 @@ const resources = {
             layout: {
                 drag_resize: "Drag to Resize"
             },
+            subjects: {
+                Chinese: "Chinese",
+                Math: "Math",
+                English: "English",
+                Physics: "Physics",
+                Chemistry: "Chemistry",
+                Biology: "Biology",
+                Politics: "Politics",
+                History: "History",
+                Geography: "Geography"
+            },
             import: {
-                placeholder: "[IMPORT MODULE PLACEHOLDER]"
+                placeholder: "[IMPORT MODULE PLACEHOLDER]",
+                title: "DATA_INGEST",
+                subtitle: "JSON Paste Import or Manual Entry",
+                tab_json: "JSON_TEXT",
+                tab_manual: "MANUAL_FORM",
+
+                json_title: "JSON_PAYLOAD",
+                json_placeholder: "{ \"exams\": [ ... ] }",
+                btn_example: "INSERT_EXAMPLE",
+                btn_parse: "PARSE",
+                btn_import: "IMPORT",
+                btn_importing: "IMPORTING...",
+
+                example_exam_name: "Mock_Exam_01",
+                exam_name_placeholder: "Mock_Exam_01",
+                optional: "(optional)",
+                exam_type_mock: "Mock",
+                exam_type_midterm: "Midterm",
+                exam_type_final: "Final",
+                exam_type_custom: "Custom",
+
+                preview_title: "PREVIEW",
+                preview_hint: "// Parse first to preview. Import writes to the DB.",
+                preview_exams: "EXAMS",
+                preview_subjects: "SUBJECT_ROWS",
+                preview_subject_unit: "rows",
+                preview_more: "+{{count}} more",
+                preview_empty: "// No preview yet.",
+
+                result_ok: "IMPORT_OK: {{count}}",
+                result_hint: "// Switch to [DASHBOARD] to view analysis.",
+
+                manual_title: "MANUAL_ENTRY",
+                manual_hint: "// Fill one exam and submit.",
+                btn_template_discovery: "TEMPLATE:9_SUB",
+                btn_template_focus: "TEMPLATE:6_SUB",
+
+                f_exam_name: "EXAM_NAME",
+                f_exam_date: "EXAM_DATE",
+                f_exam_type: "EXAM_TYPE",
+                f_exam_total: "TOTAL_SCORE (OPT)",
+                f_exam_total_hint: "AUTO_SUM = {{total}}",
+                f_exam_class_rank: "CLASS_RANK (OPT)",
+                f_exam_grade_rank: "GRADE_RANK (OPT)",
+
+                f_scores: "SCORES",
+                btn_add_row: "+ ADD_ROW",
+                btn_remove_row: "REMOVE",
+
+                col_subject: "SUBJECT",
+                col_score: "SCORE",
+                col_max: "MAX",
+                col_avg: "GRADE_AVG (OPT)",
+                col_ops: "OP",
+                opt_subject: "-- SELECT --",
+
+                btn_save: "SAVE_EXAM",
+                btn_saving: "SAVING...",
+                manual_ok: "SAVED: {{name}}"
             },
             download: {
                 system_update: "SYSTEM_UPDATE",
@@ -136,8 +205,77 @@ const resources = {
             layout: {
                 drag_resize: "拖动调整宽度"
             },
+            subjects: {
+                Chinese: "语文",
+                Math: "数学",
+                English: "英语",
+                Physics: "物理",
+                Chemistry: "化学",
+                Biology: "生物",
+                Politics: "政治",
+                History: "历史",
+                Geography: "地理"
+            },
             import: {
-                placeholder: "[导入模块占位]"
+                placeholder: "[导入模块占位]",
+                title: "数据录入",
+                subtitle: "支持 JSON 文本导入 / 手动填写",
+                tab_json: "JSON 文本",
+                tab_manual: "手动填写",
+
+                json_title: "JSON 载荷",
+                json_placeholder: "{ \"exams\": [ ... ] }",
+                btn_example: "插入示例",
+                btn_parse: "解析",
+                btn_import: "导入",
+                btn_importing: "导入中...",
+
+                example_exam_name: "模拟考_01",
+                exam_name_placeholder: "模拟考_01",
+                optional: "（可选）",
+                exam_type_mock: "模拟考",
+                exam_type_midterm: "期中",
+                exam_type_final: "期末",
+                exam_type_custom: "自定义",
+
+                preview_title: "预览",
+                preview_hint: "// 先解析预览；导入会写入数据库",
+                preview_exams: "考试数",
+                preview_subjects: "科目条目",
+                preview_subject_unit: "条",
+                preview_more: "+还有 {{count}} 条",
+                preview_empty: "// 暂无预览",
+
+                result_ok: "导入完成：{{count}}",
+                result_hint: "// 切换到 [仪表盘] 查看分析",
+
+                manual_title: "手动录入",
+                manual_hint: "// 填写一场考试并提交",
+                btn_template_discovery: "模板：9 科(高一)",
+                btn_template_focus: "模板：6 科(3+3)",
+
+                f_exam_name: "考试名称",
+                f_exam_date: "考试日期",
+                f_exam_type: "考试类型",
+                f_exam_total: "总分(可选)",
+                f_exam_total_hint: "自动求和 = {{total}}",
+                f_exam_class_rank: "班级排名(可选)",
+                f_exam_grade_rank: "年级排名(可选)",
+
+                f_scores: "成绩明细",
+                btn_add_row: "+ 添加一行",
+                btn_remove_row: "删除",
+
+                col_subject: "科目",
+                col_score: "得分",
+                col_max: "满分",
+                col_avg: "年级均分(可选)",
+                col_ops: "操作",
+                opt_subject: "-- 选择科目 --",
+
+                btn_save: "保存考试",
+                btn_saving: "保存中...",
+                manual_ok: "已保存：{{name}}"
             },
             download: {
                 system_update: "系统更新",

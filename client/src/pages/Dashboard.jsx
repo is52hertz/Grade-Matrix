@@ -99,6 +99,22 @@ const Dashboard = () => {
     const showRightModule = showSelection || showVolatility;
     const showGrid = showRadar || showRightModule;
 
+    const stripOrdinal = (title) => {
+        if (typeof title !== 'string') return title;
+        return title.replace(/^\s*\d+\s*\.\s*/g, '');
+    };
+
+    const mkTitle = (n, rawTitle) => `${String(n).padStart(2, '0')}. ${stripOrdinal(rawTitle)}`;
+
+    // 自动编号：根据当前可见模块动态计算序号，避免隐藏模块后序号断档
+    let n = 1;
+    const secNum = {};
+    if (dashboardModules?.mainSequence) secNum.mainSequence = n++;
+    if (dashboardModules?.shortStave) secNum.shortStave = n++;
+    if (showRadar) secNum.radar = n++;
+    if (showRightModule) secNum.right = n++;
+    if (dashboardModules?.dataMatrix) secNum.dataMatrix = n++;
+
     return (
         <div className="pb-20">
 
@@ -116,10 +132,10 @@ const Dashboard = () => {
                 </motion.div>
             )}
 
-            {/* 1. Main Sequence (恢复双轴 + 动画) */}
+            {/* Main Sequence */}
             {dashboardModules?.mainSequence && (
                 <AnimatedSection delay={0.1}>
-                    <SectionHeader title={t('dashboard.title_timeline')} sub={t('dashboard.sub_timeline')} />
+                    <SectionHeader title={mkTitle(secNum.mainSequence, t('dashboard.title_timeline'))} sub={t('dashboard.sub_timeline')} />
                     <div className="h-80 w-full border border-border bg-surface/50 p-4 relative">
                         <ResponsiveContainer>
                             <ComposedChart data={charts.mainSequence}>
@@ -140,10 +156,10 @@ const Dashboard = () => {
                 </AnimatedSection>
             )}
 
-            {/* 2. Short Stave */}
+            {/* Short Stave */}
             {dashboardModules?.shortStave && (
                 <AnimatedSection delay={0.2}>
-                    <SectionHeader title={t('dashboard.title_shortstave')} sub={t('dashboard.sub_shortstave')} />
+                    <SectionHeader title={mkTitle(secNum.shortStave, t('dashboard.title_shortstave'))} sub={t('dashboard.sub_shortstave')} />
                     <div className="h-64 w-full border border-border bg-surface/50 p-4">
                         <ResponsiveContainer>
                             <BarChart data={charts.shortStave} layout="vertical" margin={{left: 40, right: 20}}>
@@ -162,10 +178,10 @@ const Dashboard = () => {
 
             {showGrid && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
-                    {/* 3. Radar */}
+                    {/* Radar */}
                     {showRadar && (
                         <AnimatedSection delay={0.3}>
-                            <SectionHeader title={t('dashboard.title_radar')} sub={t('dashboard.sub_radar')} />
+                            <SectionHeader title={mkTitle(secNum.radar, t('dashboard.title_radar'))} sub={t('dashboard.sub_radar')} />
                             <div className="h-72 border border-border bg-surface/50">
                                 <ResponsiveContainer>
                                     <RadarChart cx="50%" cy="50%" outerRadius="70%" data={charts.radar}>
@@ -179,12 +195,12 @@ const Dashboard = () => {
                         </AnimatedSection>
                     )}
 
-                    {/* 4. Selection / Volatility */}
+                    {/* Selection / Volatility */}
                     {showRightModule && (
                         <AnimatedSection delay={0.4}>
                             {isGrade10 ? (
                                 <>
-                                    <SectionHeader title={t('dashboard.title_selection')} sub={t('dashboard.sub_selection')} />
+                                    <SectionHeader title={mkTitle(secNum.right, t('dashboard.title_selection'))} sub={t('dashboard.sub_selection')} />
                                     <div className="h-72 space-y-2 overflow-y-auto custom-scrollbar">
                                         {charts.suggestions.map((sug, i) => (
                                             <div key={i} className="bg-surface border border-border p-4 flex justify-between items-center group hover:border-white transition-all cursor-pointer">
@@ -204,7 +220,7 @@ const Dashboard = () => {
                                 </>
                             ) : (
                                 <>
-                                    <SectionHeader title={t('dashboard.title_volatility')} sub={t('dashboard.sub_volatility_chart')} />
+                                    <SectionHeader title={mkTitle(secNum.right, t('dashboard.title_volatility'))} sub={t('dashboard.sub_volatility_chart')} />
                                     <div className="h-72 border border-border bg-surface/50 p-4">
                                         <ResponsiveContainer>
                                             <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
@@ -223,10 +239,10 @@ const Dashboard = () => {
                 </div>
             )}
 
-            {/* 5. Matrix */}
+            {/* Matrix */}
             {dashboardModules?.dataMatrix && (
                 <AnimatedSection delay={0.5}>
-                    <SectionHeader title={t('dashboard.title_matrix')} sub={t('dashboard.sub_matrix')} />
+                    <SectionHeader title={mkTitle(secNum.dataMatrix, t('dashboard.title_matrix'))} sub={t('dashboard.sub_matrix')} />
                     <div className="border border-border overflow-hidden mb-10">
                         <table className="w-full text-left text-xs font-mono">
                             <thead className="bg-white/5 text-white">

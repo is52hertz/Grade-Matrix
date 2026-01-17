@@ -17,9 +17,13 @@ const SectionHeader = ({ title }) => (
 const Toggle = ({ active, onClick }) => (
     <button
         onClick={onClick}
-        className={`w-12 h-6 border flex items-center p-1 transition-all ${active ? 'border-white bg-white' : 'border-border bg-transparent'}`}
+        className={`w-12 h-6 border flex items-center p-1 transition-all ${active ? 'border-white bg-white justify-end' : 'border-border bg-transparent justify-start'}`}
     >
-        <motion.div layout className={`w-4 h-4 shadow-sm ${active ? 'bg-black' : 'bg-muted-fg'}`} />
+        <motion.div
+            layout
+            transition={{ type: 'spring', stiffness: 600, damping: 35 }}
+            className={`w-4 h-4 shadow-sm ${active ? 'bg-black' : 'bg-muted-fg'}`}
+        />
     </button>
 );
 
@@ -27,7 +31,7 @@ const LangOption = ({ label, active, onClick }) => (
     <button
         onClick={onClick}
         className={`px-4 py-2 border text-sm font-mono transition-all ${
-            active ? 'bg-white text-black border-white' : 'bg-transparent text-muted-fg border-border hover:border-white hover:text-white'
+            active ? 'bg-white text-black border-white hover:text-black' : 'bg-transparent text-muted-fg border-border hover:border-white hover:text-white'
         }`}
     >
         {label}
@@ -37,7 +41,7 @@ const LangOption = ({ label, active, onClick }) => (
 const Config = () => {
     const { t, i18n } = useTranslation();
     const { isAutoDetect, toggleAutoDetect, registerDownload } = useResource();
-    const { privacyMode, togglePrivacy, perfMode, togglePerf } = useConfig();
+    const { privacyMode, togglePrivacy, perfMode, togglePerf, dashboardModules, toggleDashboardModule } = useConfig();
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
@@ -150,6 +154,66 @@ const Config = () => {
                         </button>
                     </div>
                 )}
+            </div>
+
+            <SectionHeader title={t('config.sec_dashboard')} />
+            <div className="bg-surface border border-border p-6 space-y-6">
+
+                <div className="flex justify-between items-center border-b border-border pb-6">
+                    <div>
+                        <div className="text-white font-bold">{t('config.dash_overview')}</div>
+                        <div className="text-xs text-muted-fg mt-1">{t('config.dash_overview_desc')}</div>
+                    </div>
+                    <Toggle active={dashboardModules.overview} onClick={() => toggleDashboardModule('overview')} />
+                </div>
+
+                <div className="flex justify-between items-center border-b border-border pb-6">
+                    <div>
+                        <div className="text-white font-bold">{t('config.dash_mainsequence')}</div>
+                        <div className="text-xs text-muted-fg mt-1">{t('config.dash_mainsequence_desc')}</div>
+                    </div>
+                    <Toggle active={dashboardModules.mainSequence} onClick={() => toggleDashboardModule('mainSequence')} />
+                </div>
+
+                <div className="flex justify-between items-center border-b border-border pb-6">
+                    <div>
+                        <div className="text-white font-bold">{t('config.dash_shortstave')}</div>
+                        <div className="text-xs text-muted-fg mt-1">{t('config.dash_shortstave_desc')}</div>
+                    </div>
+                    <Toggle active={dashboardModules.shortStave} onClick={() => toggleDashboardModule('shortStave')} />
+                </div>
+
+                <div className="flex justify-between items-center border-b border-border pb-6">
+                    <div>
+                        <div className="text-white font-bold">{t('config.dash_radar')}</div>
+                        <div className="text-xs text-muted-fg mt-1">{t('config.dash_radar_desc')}</div>
+                    </div>
+                    <Toggle active={dashboardModules.radar} onClick={() => toggleDashboardModule('radar')} />
+                </div>
+
+                <div className="flex justify-between items-center border-b border-border pb-6">
+                    <div>
+                        <div className="text-white font-bold">{t('config.dash_selection')}</div>
+                        <div className="text-xs text-muted-fg mt-1">{t('config.dash_selection_desc')}</div>
+                    </div>
+                    <Toggle active={dashboardModules.selectionAI} onClick={() => toggleDashboardModule('selectionAI')} />
+                </div>
+
+                <div className="flex justify-between items-center border-b border-border pb-6">
+                    <div>
+                        <div className="text-white font-bold">{t('config.dash_volatility')}</div>
+                        <div className="text-xs text-muted-fg mt-1">{t('config.dash_volatility_desc')}</div>
+                    </div>
+                    <Toggle active={dashboardModules.volatilityIndex} onClick={() => toggleDashboardModule('volatilityIndex')} />
+                </div>
+
+                <div className="flex justify-between items-center">
+                    <div>
+                        <div className="text-white font-bold">{t('config.dash_matrix')}</div>
+                        <div className="text-xs text-muted-fg mt-1">{t('config.dash_matrix_desc')}</div>
+                    </div>
+                    <Toggle active={dashboardModules.dataMatrix} onClick={() => toggleDashboardModule('dataMatrix')} />
+                </div>
             </div>
 
             <SectionHeader title={t('config.sec_privacy')} />

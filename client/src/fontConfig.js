@@ -5,7 +5,7 @@
 
 // 1. 【首选源】: 你的 GitHub Release ZIP 直链
 // 请确保上传的是 SarasaTermSC-TTF-1.0.35.zip
-export const PRIMARY_FONT_URL = "https://is52hertz.cn";
+export const PRIMARY_FONT_URL = "https://raw.githubusercontent.com/is52hertz/Sarasa-Gothic/refs/heads/main/SarasaTermSC-Bold.ttf";
 
 // 2. 【备选源】: 稳定直链 (.ttf)
 export const FALLBACK_FONT_URL = "https://cdn.statically.io/gh/is52hertz/Sarasa-Gothic/main/SarasaTermSC-Bold.ttf";

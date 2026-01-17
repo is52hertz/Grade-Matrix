@@ -1,4 +1,24 @@
-***This proj is all created by Gemini 3 pro***
+<h2>AI participation</h2>
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <a href="https://github.com/ErSanSan233/IIIA">
+        <img src="https://github.com/EyKettle/IIIA/blob/main/stickers/3.png?raw=true" alt="IIIA 3 Sticker" height="180" />
+      </a>
+    </td>
+    <td width="50%" align="center">
+      <b><i>I conceived and designed the functionality of this project, while the <code>Gemini 3 pro</code> && <code>CodeX(Gpt-5.2)</code>​​ programmed it.</i></b>
+    </td>
+  </tr>
+</table>
+
+<!-- <h2>AI participation</h2>
+<a href="https://github.com/ErSanSan233/IIIA">
+  <img src="https://github.com/EyKettle/IIIA/blob/main/stickers/3.png?raw=true" align="left" height="180" style="margin-right: 20px" />
+</a>
+<br><br><br>
+<b><i>I conceived and designed the functionality of this project, while the <code>Gemini 3 pro</code> && <code>CodeX(Gpt-5.2)</code>​​ programmed it.</i></b>
+<br clear="left" /> -->
 
 # GRADE MATRIX [SYSTEM_V1.0]
 

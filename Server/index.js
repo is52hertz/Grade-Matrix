@@ -11,6 +11,10 @@ const app = express();
 const prisma = new PrismaClient();
 const SQLiteStore = sqlite3(session);
 const PORT = process.env.PORT || 5000;
+const CLIENT_ORIGINS = (process.env.CLIENT_ORIGINS || 'http://localhost:3000,http://localhost:5173')
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean);
 
 class BadRequestError extends Error {
     constructor(message) {
@@ -108,7 +112,12 @@ app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin(origin, callback) {
+        // Allow non-browser clients (no Origin header) and allowlisted dev origins.
+        if (!origin) return callback(null, true);
+        if (CLIENT_ORIGINS.includes(origin)) return callback(null, true);
+        return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
     credentials: true
 }));
 
@@ -216,4 +225,3 @@ app.post('/api/reset', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`[SERVER] Running on http://localhost:${PORT}`);
 });
-

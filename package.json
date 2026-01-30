@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
-    "dev": "npx concurrently \"npm run server --prefix server\" \"npm run dev --prefix client\"",
-    "start": "npm start --prefix server",
+    "install-all": "npm install && cd client && npm install && cd ../Server && npm install",
+    "dev": "npx concurrently \"npm run server --prefix Server\" \"npm run dev --prefix client\"",
+    "start": "npm start --prefix Server",
     "build": "npm run build --prefix client",
-    "test": "npm test --prefix server"
+    "test": "npm test --prefix Server"
   },
   "engines": {
     "node": ">=18.0.0"
